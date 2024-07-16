@@ -327,6 +327,24 @@ final class PagingController: NSObject {
                 }
             }
         }
+        
+        if collectionView.isDragging, case .wheel = options.menuInteraction {
+            let center = CGPoint(x: collectionView.bounds.midX, y: collectionView.bounds.midY)
+            if let indexPath = collectionView.indexPathForItem(at: center),
+               let currentPagingItem = state.currentPagingItem {
+                let currentIndexPath = visibleItems.indexPath(for: currentPagingItem)
+                if indexPath != currentIndexPath {
+                    let pagingItem = visibleItems.pagingItem(for: indexPath)
+                    state = .selected(pagingItem: pagingItem)
+                    collectionViewLayout.invalidateLayout()
+                    delegate?.selectContent(
+                        pagingItem: pagingItem,
+                        direction: .none,
+                        animated: false
+                    )
+                }
+            }
+        }
     }
 
     // MARK: Private
@@ -367,7 +385,7 @@ final class PagingController: NSObject {
         collectionView.alwaysBounceHorizontal = false
 
         switch options.menuInteraction {
-        case .scrolling:
+        case .scrolling, .wheel:
             collectionView.isScrollEnabled = true
             collectionView.alwaysBounceHorizontal = true
         case .swipe:

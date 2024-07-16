@@ -36,6 +36,7 @@ protocol CollectionView: AnyObject {
     func layoutIfNeeded()
     func setContentOffset(_ contentOffset: CGPoint, animated: Bool)
     func selectItem(at indexPath: IndexPath?, animated: Bool, scrollPosition: UICollectionView.ScrollPosition)
+    func indexPathForItem(at point: CGPoint) -> IndexPath?
 }
 
 extension UICollectionView: CollectionView {}
