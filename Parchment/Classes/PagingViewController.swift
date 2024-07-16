@@ -528,6 +528,7 @@ open class PagingViewController:
         pagingController.collectionViewLayout = collectionViewLayout
         pagingController.dataSource = self
         pagingController.delegate = self
+        pagingController.scrollDelegate = self
         pagingController.options = options
     }
 
@@ -716,6 +717,12 @@ extension PagingViewController: PagingMenuDataSource {
 extension PagingViewController: PagingControllerSizeDelegate {
     func width(for pagingItem: PagingItem, isSelected: Bool) -> CGFloat {
         return sizeDelegate?.pagingViewController(self, widthForPagingItem: pagingItem, isSelected: isSelected) ?? 0
+    }
+}
+
+extension PagingViewController: PagingControllerScrollDelegate {
+    func pagingController(didScrolled pageItem: PagingItem) {
+        delegate?.pagingViewController(self, didSelectItem: pageItem)
     }
 }
 

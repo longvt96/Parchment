@@ -4,10 +4,15 @@ protocol PagingControllerSizeDelegate: AnyObject {
     func width(for: PagingItem, isSelected: Bool) -> CGFloat
 }
 
+protocol PagingControllerScrollDelegate: AnyObject {
+    func pagingController(didScrolled pageItem: PagingItem)
+}
+
 final class PagingController: NSObject {
     weak var dataSource: PagingMenuDataSource?
     weak var sizeDelegate: PagingControllerSizeDelegate?
     weak var delegate: PagingMenuDelegate?
+    weak var scrollDelegate: PagingControllerScrollDelegate?
 
     weak var collectionView: CollectionView! {
         didSet {
@@ -342,6 +347,7 @@ final class PagingController: NSObject {
                         direction: .none,
                         animated: false
                     )
+                    scrollDelegate?.pagingController(didScrolled: pagingItem)
                 }
             }
         }
