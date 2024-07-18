@@ -61,6 +61,8 @@ class IconsViewController: UIViewController {
         pagingViewController.register(IconPagingCell.self, for: IconItem.self)
         pagingViewController.menuItemSize = .fixed(width: 60, height: 60)
         pagingViewController.dataSource = self
+        pagingViewController.menuInteraction = .wheel
+        pagingViewController.selectedScrollPosition = .center
         pagingViewController.select(pagingItem: IconItem(icon: icons[0], index: 0))
 
         // Add the paging view controller as a child view controller
